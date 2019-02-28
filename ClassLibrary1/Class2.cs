@@ -19,7 +19,12 @@ namespace ClassLibrary1
     {
         public Dictionary<string, Item[]> items { get; set; } // date: key information: value
     }*/
-
+    public class Links
+    {
+        public string next { get; set; }
+        public string prev { get; set; }
+        public string self { get; set; }
+    }
     public class Item
     {
         public string id { get; set; }
@@ -37,6 +42,31 @@ namespace ClassLibrary1
     {
         public string self { get; set; }
     }
+
+    public class Kilometers
+    {
+        public double estimated_diameter_min { get; set; }
+        public double estimated_diameter_max { get; set; }
+    }
+
+    public class Meters
+    {
+        public double estimated_diameter_min { get; set; }
+        public double estimated_diameter_max { get; set; }
+    }
+
+    public class Miles
+    {
+        public double estimated_diameter_min { get; set; }
+        public double estimated_diameter_max { get; set; }
+    }
+
+    public class Feet
+    {
+        public double estimated_diameter_min { get; set; }
+        public double estimated_diameter_max { get; set; }
+    }
+
 
     public class Estimated_Diameter
     {

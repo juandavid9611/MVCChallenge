@@ -1,9 +1,45 @@
-﻿@{
+﻿@model IEnumerable<ClassLibrary1.Item>
+@{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <p>@ViewData["data"]</p>
+
+    <form method="post">
+        <fieldset>
+            <legend>Select Dates</legend>
+            Fechas: <input id="dateBegin" name="dateBegin" type="date"> to <input id="dateEnd" name="dateEnd" type="date">
+            <button type="submit" onclick="location.href='@Url.Action("Index")'" />
+        </fieldset>
+    </form>
+    <br />
+    <table class="table table-bordered table-responsive table-hover">
+        <tr>
+            <th>Id </th>
+            <th>Neo Reference Id</th>
+            <th>Name</th>
+            <th>Nasa Jpl Url</th>
+            <th>Absolute Magnitude H</th>
+            <th>Miss Distance in Kilometers</th>
+            <th>Time to reach</th>
+        </tr>
+        @if (Model != null)
+        {
+            @foreach (var d in Model)
+            {
+                <tr>
+                    <td>@d.id</td>
+                    <td>@d.neo_reference_id</td>
+                    <td>@d.name</td>
+                    <td>@d.nasa_jpl_url</td>
+                    <td>@d.absolute_magnitude_h</td>
+                    <td>@d.close_approach_data[0].miss_distance.kilometers</td>
+                    <td>Value</td>
+
+                </tr>
+            }
+        }
+    </table>
 </div>
