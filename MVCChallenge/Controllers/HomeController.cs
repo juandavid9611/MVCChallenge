@@ -13,10 +13,12 @@ namespace MVCChallenge.Controllers
         public IActionResult Index()
         {
             return View();
-        }
+        } 
 
         public IActionResult Privacy()
         {
+            string result = ApiCall.call();
+            ViewData["result"] = result;
             return View();
         }
 
