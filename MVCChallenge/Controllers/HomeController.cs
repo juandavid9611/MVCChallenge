@@ -14,19 +14,28 @@ namespace MVCChallenge.Controllers
 {
     public class HomeController : Controller
     {
-        
+        [HttpGet]
+        public IActionResult Index()
+        {
+           return View();
+        }
+
+        [HttpPost]
         public IActionResult Index(DateTime dateBegin, DateTime dateEnd)
         {
             DateTime defaultDate = new DateTime();
-            System.Diagnostics.Debug.WriteLine("Fecha: " + dateBegin + "----------------------------------");
             List<Item> result = new List<Item>();
-            
-            if(dateBegin != defaultDate && dateEnd != defaultDate)
+
+            if (dateBegin == defaultDate && dateEnd == defaultDate)
             {
-                result = ApiCall.call(dateBegin, dateEnd);
+                dateBegin = new DateTime(DateTime.Now.Year, DateTime.Now.Month-1,1);
+                dateEnd = dateBegin.AddDays(7);
+                
             }
+            result = ApiCall.call(dateBegin, dateEnd);
             return View(result);
-        } 
+        }
+
 
         public IActionResult Privacy()
         { 
@@ -38,6 +47,11 @@ namespace MVCChallenge.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+ 
+        public PartialViewResult GetQuery()
+        {
+            return PartialView("_query");
+        }
     }
 
     public class ApiCall
@@ -47,7 +61,10 @@ namespace MVCChallenge.Controllers
             List<Item> resultList = new List<Item>();
             string begin = Convert.ToDateTime(dateBegin).ToString("yyyy-MM-dd");
             string end = Convert.ToDateTime(dateEnd).ToString("yyyy-MM-dd");
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-08&end_date=2015-09-09&detailed=false&api_key=cUqV7cuC5PYAx1afjZkyo2VFcb1jY12SMmkI4DHN");
+            System.Diagnostics.Debug.WriteLine("DateBegin: " + begin + "---------------------------------- DateEnd: " + end);
+            string uri = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + begin + "&end_date=" + end+ "&detailed=false&api_key=cUqV7cuC5PYAx1afjZkyo2VFcb1jY12SMmkI4DHN";
+            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-08&end_date=2015-09-09&detailed=false&api_key=cUqV7cuC5PYAx1afjZkyo2VFcb1jY12SMmkI4DHN");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))

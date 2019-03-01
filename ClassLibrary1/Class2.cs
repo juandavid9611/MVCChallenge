@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+#def
+
 namespace ClassLibrary1
 {
     class Class2
@@ -13,6 +15,19 @@ namespace ClassLibrary1
         public Links links { get; set; }
         public int element_count { get; set; }
         public Dictionary<string, Item[]> near_earth_objects { get; set; }
+        public List<double> DistanceCalculate()
+        {
+            List<double> resultList = new List<double>();
+            foreach (KeyValuePair<string, Item[]> miItems in near_earth_objects)
+            {
+                foreach (Item item in miItems.Value)
+                {
+                    double ligthVelocity = 299792.0;
+                    resultList.Add(Double.Parse(item.close_approach_data[0].miss_distance.kilometers)/ligthVelocity);
+                }
+            }
+            return resultList;
+        }
     }
 
     /*public class Near_Earth_Objects

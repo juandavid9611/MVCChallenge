@@ -3,21 +3,23 @@
     ViewData["Title"] = "Home Page";
 }
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Asteroids</h1>
     <p>@ViewData["data"]</p>
 
-    <form method="post">
+    <form asp-action="Index" method="post">
         <fieldset>
             <legend>Select Dates</legend>
-            Fechas: <input id="dateBegin" name="dateBegin" type="date"> to <input id="dateEnd" name="dateEnd" type="date">
-            <button type="submit" onclick="location.href='@Url.Action("Index")'" />
+            Dates: <input id="dateBegin" name="dateBegin" type="date" onchange="nextDate()"> 
+            to 
+          <input id="dateEnd" name="dateEnd" type="date">
+            <input type="submit" value="Show"/>
         </fieldset>
     </form>
     <br />
     <table class="table table-bordered table-responsive table-hover">
         <tr>
             <th>Id </th>
+            <th>Approach Date</th>
             <th>Neo Reference Id</th>
             <th>Name</th>
             <th>Nasa Jpl Url</th>
@@ -31,15 +33,44 @@
             {
                 <tr>
                     <td>@d.id</td>
+                    <td>@d.close_approach_data[0].close_approach_date</td>
                     <td>@d.neo_reference_id</td>
+
                     <td>@d.name</td>
                     <td>@d.nasa_jpl_url</td>
                     <td>@d.absolute_magnitude_h</td>
                     <td>@d.close_approach_data[0].miss_distance.kilometers</td>
-                    <td>Value</td>
+                    <td>@d.close_approach_data[0].close_approach_date</td>
 
                 </tr>
             }
         }
     </table>
 </div>
+
+<script>
+    const dateBegin = document.querySelector("#dateBegin");
+    const dateEnd = document.querySelector("#dateEnd");
+    dateEnd.addEventListener("change", () => prevDate());
+    function nextDate() {
+        let date = new Date(dateBegin.value);
+        date.setDate(date.getDate() + 7);
+        dateEnd.value = formatDate(date);
+        console.log(formatDate(date));
+    }
+    function formatDate(date) {
+        var d = date,
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        return [year, month, day].join('-');
+    }
+    function prevDate() {
+        let date = new Date(dateEnd.value);
+        date.setDate(date.getDate() - 6);
+        dateBegin.value = formatDate(date);
+        console.log(formatDate(date));
+    }
+</script>
