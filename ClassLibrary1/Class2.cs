@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-#def
-
 namespace ClassLibrary1
 {
     class Class2
@@ -23,7 +21,7 @@ namespace ClassLibrary1
                 foreach (Item item in miItems.Value)
                 {
                     double ligthVelocity = 299792.0;
-                    resultList.Add(Double.Parse(item.close_approach_data[0].miss_distance.kilometers)/ligthVelocity);
+                    resultList.Add(Math.Round(Double.Parse(item.close_approach_data[0].miss_distance.kilometers)/ligthVelocity,2));
                 }
             }
             return resultList;

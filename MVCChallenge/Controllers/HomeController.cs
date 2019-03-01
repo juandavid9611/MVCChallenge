@@ -24,13 +24,12 @@ namespace MVCChallenge.Controllers
         public IActionResult Index(DateTime dateBegin, DateTime dateEnd)
         {
             DateTime defaultDate = new DateTime();
-            List<Item> result = new List<Item>();
+            Tuple<List<Item>, List<double>> result = new Tuple<List<Item>, List<double>>(new List<Item>(),new List<double>());
 
             if (dateBegin == defaultDate && dateEnd == defaultDate)
             {
                 dateBegin = new DateTime(DateTime.Now.Year, DateTime.Now.Month-1,1);
                 dateEnd = dateBegin.AddDays(7);
-                
             }
             result = ApiCall.call(dateBegin, dateEnd);
             return View(result);
@@ -56,7 +55,7 @@ namespace MVCChallenge.Controllers
 
     public class ApiCall
     {
-        public static List<Item> call(DateTime dateBegin, DateTime dateEnd)
+        public static Tuple<List<Item>, List<double>> call(DateTime dateBegin, DateTime dateEnd)
         {
             List<Item> resultList = new List<Item>();
             string begin = Convert.ToDateTime(dateBegin).ToString("yyyy-MM-dd");
@@ -79,7 +78,9 @@ namespace MVCChallenge.Controllers
                         resultList.Add(item);
                     }
                 }
-                return (resultList);
+                List<double> distanceList = asteroid.DistanceCalculate();
+                Tuple<List<Item>, List<double>> tuple = new Tuple<List<Item>, List<double>>(resultList, distanceList); 
+                return (tuple);
             }
         }
     }
