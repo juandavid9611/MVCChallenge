@@ -14,17 +14,14 @@ namespace ClassLibrary1
         public int element_count { get; set; }
         public Dictionary<string, Item[]> near_earth_objects { get; set; }
     }
-
-    /*public class Near_Earth_Objects
-    {
-        public Dictionary<string, Item[]> items { get; set; } // date: key information: value
-    }*/
+    
     public class Links
     {
         public string next { get; set; }
         public string prev { get; set; }
         public string self { get; set; }
     }
+
     public class Item
     {
         public string id { get; set; }

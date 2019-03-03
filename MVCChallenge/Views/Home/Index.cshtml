@@ -57,15 +57,12 @@
             let date = new Date(dateBegin.value);
             date.setDate(date.getDate() + 8);
             dateEnd.value = formatDate(date);
-            console.log(formatDate(date));
         }
         else {
-            console.log(Date.daysBetween(dateBegin.valueAsDate, dateEnd.valueAsDate));
             if (Date.daysBetween(dateBegin.valueAsDate, dateEnd.valueAsDate) > 7) {
                 let date = new Date(dateBegin.value);
                 date.setDate(date.getDate() + 8);
                 dateEnd.value = formatDate(date);
-                console.log(formatDate(date));
             }
         }
     }
@@ -83,7 +80,6 @@
             let date = new Date(dateEnd.value);
             date.setDate(date.getDate() - 6);
             dateBegin.value = formatDate(date);
-            console.log(formatDate(date));
         }
         else {
             console.log(Date.daysBetween(dateBegin.valueAsDate, dateEnd.valueAsDate));
@@ -91,7 +87,6 @@
                 let date = new Date(dateEnd.value);
                 date.setDate(date.getDate() - 6);
                 dateBegin.value = formatDate(date);
-                console.log(formatDate(date));
             }
         }
     }

@@ -48,11 +48,6 @@ namespace MVCChallenge.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
- 
-        public PartialViewResult GetQuery()
-        {
-            return PartialView("_query");
-        }
     }
 
     public class ApiCall
@@ -62,9 +57,7 @@ namespace MVCChallenge.Controllers
             List<Tuple<Item, double>> resList = new List<Tuple<Item, double>>();
             string begin = Convert.ToDateTime(dateBegin).ToString("yyyy-MM-dd");
             string end = Convert.ToDateTime(dateEnd).ToString("yyyy-MM-dd");
-            System.Diagnostics.Debug.WriteLine("DateBegin: " + begin + "---------------------------------- DateEnd: " + end);
             string uri = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + begin + "&end_date=" + end+ "&detailed=false&api_key=cUqV7cuC5PYAx1afjZkyo2VFcb1jY12SMmkI4DHN";
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-08&end_date=2015-09-09&detailed=false&api_key=cUqV7cuC5PYAx1afjZkyo2VFcb1jY12SMmkI4DHN");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
