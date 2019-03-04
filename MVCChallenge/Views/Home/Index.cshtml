@@ -55,7 +55,7 @@
     dateEnd.addEventListener("change", () => prevDate());
     function nextDate() {
         let date = new Date(dateBegin.value);
-        date.setDate(date.getDate() + 7);
+        date.setDate(date.getDate() + 8);
         dateEnd.value = formatDate(date);
         console.log(formatDate(date));
     }
