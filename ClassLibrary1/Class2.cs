@@ -13,31 +13,15 @@ namespace ClassLibrary1
         public Links links { get; set; }
         public int element_count { get; set; }
         public Dictionary<string, Item[]> near_earth_objects { get; set; }
-        public List<double> DistanceCalculate()
-        {
-            List<double> resultList = new List<double>();
-            foreach (KeyValuePair<string, Item[]> miItems in near_earth_objects)
-            {
-                foreach (Item item in miItems.Value)
-                {
-                    double ligthVelocity = 299792.0;
-                    resultList.Add(Math.Round(Double.Parse(item.close_approach_data[0].miss_distance.kilometers)/ligthVelocity,2));
-                }
-            }
-            return resultList;
-        }
     }
-
-    /*public class Near_Earth_Objects
-    {
-        public Dictionary<string, Item[]> items { get; set; } // date: key information: value
-    }*/
+    
     public class Links
     {
         public string next { get; set; }
         public string prev { get; set; }
         public string self { get; set; }
     }
+
     public class Item
     {
         public string id { get; set; }
@@ -49,6 +33,12 @@ namespace ClassLibrary1
         public bool is_potentially_hazardous_asteroid { get; set; }
         public Close_Approach_Data[] close_approach_data { get; set; }
         public bool is_sentry_object { get; set; }
+        public double DistanceCalculate()
+        {
+            double ligthVelocity = 299792.0;
+            double distance = Math.Round(Double.Parse(this.close_approach_data[0].miss_distance.kilometers) / ligthVelocity, 2);
+            return distance;
+        }
     }
 
     public class Links1

@@ -1,4 +1,4 @@
-﻿@model Tuple<List<ClassLibrary1.Item>, List<double>>
+﻿@model List<Tuple<ClassLibrary1.Item, double>>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -29,19 +29,18 @@
         </tr>
         @if (Model != null)
         {
-            var modelItem = Model.Item1.Zip(Model.Item2, (n, w) => new { Item = n, Distance = w });
-            @foreach (var d in modelItem)
+            @foreach (var d in Model)
             {
                 <tr>
-                    <td>@d.Item.id</td>
-                    <td>@d.Item.close_approach_data[0].close_approach_date</td>
-                    <td>@d.Item.neo_reference_id</td>
+                    <td>@d.Item1.id</td>
+                    <td>@d.Item1.close_approach_data[0].close_approach_date</td>
+                    <td>@d.Item1.neo_reference_id</td>
 
-                    <td>@d.Item.name</td>
-                    <td>@d.Item.nasa_jpl_url</td>
-                    <td>@d.Item.absolute_magnitude_h</td>
-                    <td>@d.Item.close_approach_data[0].miss_distance.kilometers</td>
-                    <td>@d.Distance</td>
+                    <td>@d.Item1.name</td>
+                    <td>@d.Item1.nasa_jpl_url</td>
+                    <td>@d.Item1.absolute_magnitude_h</td>
+                    <td>@d.Item1.close_approach_data[0].miss_distance.kilometers</td>
+                    <td>@d.Item2</td>
 
                 </tr>
             }
@@ -54,10 +53,18 @@
     const dateEnd = document.querySelector("#dateEnd");
     dateEnd.addEventListener("change", () => prevDate());
     function nextDate() {
-        let date = new Date(dateBegin.value);
-        date.setDate(date.getDate() + 8);
-        dateEnd.value = formatDate(date);
-        console.log(formatDate(date));
+        if (dateEnd.value == "") {
+            let date = new Date(dateBegin.value);
+            date.setDate(date.getDate() + 8);
+            dateEnd.value = formatDate(date);
+        }
+        else {
+            if (Date.daysBetween(dateBegin.valueAsDate, dateEnd.valueAsDate) > 7) {
+                let date = new Date(dateBegin.value);
+                date.setDate(date.getDate() + 8);
+                dateEnd.value = formatDate(date);
+            }
+        }
     }
     function formatDate(date) {
         var d = date,
@@ -69,9 +76,32 @@
         return [year, month, day].join('-');
     }
     function prevDate() {
-        let date = new Date(dateEnd.value);
-        date.setDate(date.getDate() - 6);
-        dateBegin.value = formatDate(date);
-        console.log(formatDate(date));
+        if (dateBegin == "") {
+            let date = new Date(dateEnd.value);
+            date.setDate(date.getDate() - 6);
+            dateBegin.value = formatDate(date);
+        }
+        else {
+            console.log(Date.daysBetween(dateBegin.valueAsDate, dateEnd.valueAsDate));
+            if (Date.daysBetween(dateBegin.valueAsDate, dateEnd.valueAsDate) > 7) {
+                let date = new Date(dateEnd.value);
+                date.setDate(date.getDate() - 6);
+                dateBegin.value = formatDate(date);
+            }
+        }
+    }
+    Date.daysBetween = function (date1, date2) {
+        //Get 1 day in milliseconds
+        var one_day = 1000 * 60 * 60 * 24;
+
+        // Convert both dates to milliseconds
+        var date1_ms = date1.getTime();
+        var date2_ms = date2.getTime();
+
+        // Calculate the difference in milliseconds
+        var difference_ms = date2_ms - date1_ms;
+
+        // Convert back to days and return
+        return Math.round(difference_ms / one_day);
     }
 </script>
